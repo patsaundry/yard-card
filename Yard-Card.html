@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Yard Card · Might and Power Club</title>
+  <meta name="theme-color" content="#14110d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --soil: #14110d;
+      --bay: #3a2416;
+      --leather: #6a3d1c;
+      --gold: #c9a227;
+      --gold-lt: #f0d48a;
+      --turf: #2a5a38;
+      --turf-lt: #3e7a4e;
+      --cream: #f4ead3;
+      --paper: #fbf6ea;
+      --ink: #1c140e;
+      --muted: #6d5c4a;
+      --line: #e2d3b6;
+      --danger: #8a2f24;
+      --font: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    html, body { margin: 0; background: var(--soil); color: var(--ink); font-family: Figtree, system-ui, sans-serif; font-size: var(--font); }
+    button, input, a { font: inherit; touch-action: manipulation; -webkit-tap-highlight-color: rgba(201,162,39,.28); }
+    button { appearance: none; -webkit-appearance: none; }
+    a { color: inherit; text-decoration: none; }
+    .app {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background:
+        radial-gradient(900px 420px at 80% -10%, rgba(201,162,39,.18), transparent 50%),
+        linear-gradient(180deg, #1b1610 0%, #14110d 40%, #102016 100%);
+    }
+    header.top {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+      background: rgba(20,17,13,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,162,39,.35);
+      color: var(--cream);
+    }
+    .mark { display: flex; align-items: center; gap: 10px; }
+    .silk {
+      width: 36px; height: 36px; border-radius: 8px 8px 12px 12px;
+      background: linear-gradient(135deg, #7a4a1e 40%, #c9a227 40% 60%, #2a5a38 60%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+    }
+    .brand b { display: block; font-family: "Instrument Serif", Georgia, serif; font-size: 22px; font-weight: 400; color: var(--gold-lt); line-height: 1; }
+    .brand small { letter-spacing: .16em; text-transform: uppercase; font-size: 10px; color: #cbb896; }
+    nav.tabs { display: flex; gap: 4px; background: #221c16; padding: 4px; border-radius: 999px; }
+    nav.tabs button {
+      color: #cbb896; padding: 8px 12px; border-radius: 999px; font-size: 14px; font-weight: 700;
+      background: transparent; border: 0; cursor: pointer; min-height: 44px; min-width: 64px;
+    }
+    nav.tabs button.active { background: var(--gold); color: var(--soil); }
+    main { max-width: 820px; margin: 0 auto; padding: 14px 14px 168px; }
+    .hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(145deg, #2a1c12 0%, #17140f 55%, #1a2a1c 120%);
+      color: var(--cream); border-radius: 22px; padding: 22px 20px 20px;
+      border: 1px solid rgba(240,212,138,.22);
+    }
+    .hero:before {
+      content: ""; position: absolute; right: -20px; bottom: -30px; width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(201,162,39,.2), transparent 70%);
+    }
+    .kicker { color: var(--gold-lt); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 800; }
+    .hero h1 { font-family: "Instrument Serif", Georgia, serif; font-size: 34px; font-weight: 400; margin: 8px 0 8px; line-height: 1.05; }
+    .hero p { margin: 0; color: #e7d9bd; font-size: 17px; }
+    .card {
+      background: var(--paper); border: 1px solid var(--line); border-radius: 20px;
+      padding: 16px; margin-top: 12px;
+    }
+    .card h2 { font-family: "Instrument Serif", Georgia, serif; font-size: 26px; font-weight: 400; margin: 0 0 6px; }
+    .muted { color: var(--muted); }
+    .race {
+      display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center;
+      padding: 14px 4px; border-bottom: 1px solid var(--line);
+    }
+    .race:last-child { border-bottom: 0; }
+    .rn {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: var(--soil); color: var(--gold-lt);
+      display: grid; place-items: center; font-family: "Instrument Serif", Georgia, serif; font-size: 24px;
+    }
+    .rn.g1 { background: linear-gradient(160deg, #5a3a12, #14110d); box-shadow: inset 0 0 0 1px var(--gold); }
+    .meta b { display: block; font-size: 17px; line-height: 1.2; }
+    .meta .who { color: var(--muted); font-size: 14px; margin-top: 3px; }
+    .btn {
+      border: 0; border-radius: 999px; padding: 12px 16px; font-weight: 800; cursor: pointer;
+    }
+    .btn.gold { background: var(--gold); color: var(--soil); width: 100%; }
+    .btn.soil { background: var(--soil); color: var(--gold-lt); white-space: nowrap; }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid #d3c3a4; }
+    .chip { display: inline-block; background: #efe3c8; color: #3c2a12; border-radius: 999px; padding: 4px 9px; font-size: 13px; font-weight: 800; }
+    input[type=text], input[type=password] {
+      width: 100%; padding: 14px; border-radius: 14px; border: 1px solid #d3c4aa; background: #fff; font-size: 18px;
+    }
+
+    /* one-horse yard mode */
+    .yard { display: flex; flex-direction: column; gap: 12px; }
+    .progress { display: flex; gap: 5px; flex-wrap: wrap; }
+    .progress button {
+      width: 34px; height: 34px; border-radius: 10px; border: 0; background: #e8dcc4; color: var(--ink); font-weight: 800; font-size: 13px;
+    }
+    .progress button.on { background: var(--soil); color: var(--gold-lt); }
+    .progress button.done { background: var(--turf); color: #fff; }
+    .horse-pane {
+      background: var(--paper); border-radius: 24px; padding: 16px 16px 18px; border: 1px solid var(--line);
+    }
+    .hd { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+    .cloth {
+      min-width: 56px; height: 56px; border-radius: 16px; background: var(--soil); color: var(--gold-lt);
+      display: grid; place-items: center; font-family: "Instrument Serif", Georgia, serif; font-size: 28px;
+    }
+    .total-pill {
+      min-width: 72px; text-align: right;
+    }
+    .total-pill b { display: block; font-family: "Instrument Serif", Georgia, serif; font-size: 36px; line-height: 1; color: var(--leather); }
+    .total-pill span { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .crit { margin-top: 14px; }
+    .lab { display: flex; justify-content: space-between; font-weight: 800; font-size: 16px; }
+    .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: 7px; margin-top: 7px; }
+    .scores button {
+      height: 46px; border-radius: 12px; border: 1px solid #d8c9ae; background: #fff; font-weight: 800; font-size: 17px;
+    }
+    .scores button.on { background: var(--soil); color: var(--gold-lt); border-color: var(--soil); }
+    .dock {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+      background: rgba(20,17,13,.96); color: var(--cream);
+      padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px));
+      display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center;
+      border-top: 1px solid rgba(201,162,39,.35);
+    }
+    .dock .lead { font-family: "Instrument Serif", Georgia, serif; font-size: 18px; color: var(--gold-lt); line-height: 1.15; }
+    .dock .btn { padding: 11px 14px; }
+    .board-grid { display: grid; gap: 8px; }
+    .brow {
+      display: grid; grid-template-columns: 48px 1fr 64px; gap: 10px; align-items: center;
+      background: var(--paper); border-radius: 16px; padding: 14px 16px;
+    }
+    .brow.hot { background: #fff1c4; }
+    .brow .r { font-family: "Instrument Serif", Georgia, serif; font-size: 24px; }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%); background: var(--turf); color: #fff;
+      padding: 8px 14px; border-radius: 999px; z-index: 28; font-weight: 700;
+      pointer-events: none; max-width: calc(100% - 28px); text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    html.crios .dock {
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+    html.crios main { padding-bottom: 220px; }
+    html.crios .toast { bottom: calc(148px + env(safe-area-inset-bottom, 0px)); }
+    header.top { z-index: 40; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 430px) {
+      header.top {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 10px;
+      }
+      .brand b { font-size: 20px; }
+      nav.tabs { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+      nav.tabs button {
+        display: flex; align-items: center; justify-content: center;
+        min-height: 44px; padding: 10px 8px;
+      }
+      .hero h1 { font-size: 28px; }
+      .race {
+        grid-template-columns: 48px 1fr;
+        gap: 10px;
+        padding: 14px 0;
+      }
+      .race .btn { grid-column: 1 / -1; width: 100%; min-height: 48px; }
+      .progress button { width: 44px; height: 44px; font-size: 15px; }
+      .scores { grid-template-columns: repeat(auto-fit, minmax(48px, 1fr)); }
+      .scores button { height: 48px; }
+      main { padding: 12px 12px 188px; }
+      .dock {
+        padding: 10px 10px calc(22px + env(safe-area-inset-bottom, 0px));
+      }
+      .dock .btn { min-height: 44px; }
+    }
+    @media (min-width: 800px) {
+      .hero h1 { font-size: 42px; }
+      .board-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="mark">
+      <div class="silk" aria-hidden="true"></div>
+      <div class="brand"><b>Yard Card</b><small>MPC · Caulfield</small></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button type="button" data-nav="judge">Yard</button>
+      <button type="button" data-nav="board">Board</button>
+      <button type="button" data-nav="host">Host</button>
+    </nav>
+  </header>
+  <main id="view"></main>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script>
+window.CARD_DATA = {"meetingName":"Caulfield \u2014 Underwood Stakes Day","venue":"Caulfield","date":"2026-09-19","tables":[{"id":"r1-greene","raceNumber":1,"team":"Race 1 table","leaveSuite":"11:50 AM","members":["Sebastian Greene","William Wilsmore","Joy Lau","Murray Whitehead"]},{"id":"r2-pekin","raceNumber":2,"team":"Race 2 table","leaveSuite":"12:20 PM","members":["Dan Pekin","Mary Pekin","Neil Hildebrand","Maureen Hildebrand"]},{"id":"r3-harding","raceNumber":3,"team":"Race 3 table","leaveSuite":"12:55 PM","members":["Peter Harding","Sue Harding","Paul Anderson","Barbara Cullen"]},{"id":"r4-saundry","raceNumber":4,"team":"Race 4 table","leaveSuite":"1:30 PM","members":["Pat Saundry","Leonie Saundry","Jay Norden","Sebastian Woodlands"]},{"id":"r5-heinz","raceNumber":5,"team":"Race 5 table","leaveSuite":"2:05 PM","members":["Peter Heinz","Jill Heinz","Chris Jackson","Deb Beale AM"]},{"id":"r6-landers","raceNumber":6,"team":"Race 6 table","leaveSuite":"2:40 PM","members":["Jason Vanderzalm","Ray Biehl","Peter Landers","Julie Landers"]},{"id":"r7-mahony","raceNumber":7,"team":"Race 7 table","leaveSuite":"3:15 PM","members":["David Ross-Edwards","Mark Rademaker","David Mahony","Majella Mahony"]},{"id":"r8-silk","raceNumber":8,"team":"Race 8 table","leaveSuite":"3:55 PM","members":["Stephen Silk","Helen Silk","Neil McKay","Jo Matthews"]},{"id":"r9-power","raceNumber":9,"team":"Race 9 table","leaveSuite":"4:30 PM","members":["Michael Power","Poppy Yuan","Brad Spicer","Brad Spicer guest"]},{"id":"r10-kerr","raceNumber":10,"team":"Race 10 table","leaveSuite":"5:05 PM","members":["Charles Kerr","Kath Kerr","Stephen Leeds","Oscar Leeds"]}],"races":[{"raceNumber":1,"name":"The Taggart","nameForm":"BM74","distance":"1800m","time":"2026-09-19T02:10:00.000Z","live":14,"scratched":2,"horses":[{"cloth":1,"name":"Prince Eric","jockey":"H.Durnan","trainer":"A.Alexander","barrier":12,"weight":"64kg","scratched":true},{"cloth":2,"name":"Politely Dun","jockey":"D.G.Thornton","trainer":"D.T.O'Brien","barrier":9,"weight":"61kg","scratched":false},{"cloth":3,"name":"Emperor Tzu","jockey":"J.A.Johnstone","trainer":"C.Maher","barrier":7,"weight":"60.5kg","scratched":false},{"cloth":4,"name":"My Brothers Keeper","jockey":"P.M.Moloney","trainer":"S.V.Brown","barrier":8,"weight":"60.5kg","scratched":false},{"cloth":5,"name":"Raf Attack","jockey":"L.Currie","trainer":"Tony & Calvin McEvoy","barrier":16,"weight":"60.5kg","scratched":true},{"cloth":6,"name":"Fear No Evil","jockey":"J.Childs","trainer":"Gai Waterhouse & Adrian Bott","barrier":13,"weight":"59kg","scratched":false},{"cloth":7,"name":"Flag Flyer","jockey":"J.Noonan","trainer":"G.Eurell","barrier":2,"weight":"59kg","scratched":false},{"cloth":8,"name":"Enviable","jockey":"D.M.Lane","trainer":"C.J.Waller","barrier":5,"weight":"58.5kg","scratched":false},{"cloth":9,"name":"Haaracaine","jockey":"M.Zahra","trainer":"N.R.Ryan","barrier":6,"weight":"58.5kg","scratched":false},{"cloth":10,"name":"Shiny New Deel","jockey":"B.A.Shinn","trainer":"G.M.Bedggood","barrier":15,"weight":"58.5kg","scratched":false},{"cloth":11,"name":"Male Model","jockey":"L.Nolen","trainer":"J.D.Thom","barrier":10,"weight":"58kg","scratched":false},{"cloth":12,"name":"Sapphire Siren","jockey":"T.M.Nugent","trainer":"B.Papazaharoudakis","barrier":11,"weight":"58kg","scratched":false},{"cloth":13,"name":"Slane","jockey":"S.K.Kennedy","trainer":"E.Jusufovic","barrier":1,"weight":"58kg","scratched":false},{"cloth":14,"name":"Cavalry","jockey":"B.J.Melham","trainer":"Michael, John & Wayne Hawkes","barrier":3,"weight":"57kg","scratched":false},{"cloth":15,"name":"Oraqua","jockey":"H.T.Coffey","trainer":"M.Freedman","barrier":4,"weight":"57kg","scratched":false},{"cloth":16,"name":"Jenni Multabella","jockey":"D.Bates","trainer":"L.M.Kennewell","barrier":14,"weight":"56kg","scratched":false}]},{"raceNumber":2,"name":"HKJC World Pool Classics Preview","nameForm":"3Y  HCP","distance":"1800m","time":"2026-09-19T02:40:00.000Z","live":8,"scratched":1,"horses":[{"cloth":1,"name":"Arashi Flash","jockey":"L.J.Neindorf","trainer":"Trent Busuttin & Natalie Young","barrier":4,"weight":"59kg","scratched":false},{"cloth":2,"name":"Frank Whisper","jockey":"D.W.Stackhouse","trainer":"M.Laurie","barrier":2,"weight":"59kg","scratched":false},{"cloth":3,"name":"Icy You","jockey":"C.Newitt","trainer":"Trent Busuttin & Natalie Young","barrier":1,"weight":"59kg","scratched":false},{"cloth":4,"name":"Utopic Future","jockey":"T.Stockdale","trainer":"C.Maher","barrier":9,"weight":"59kg","scratched":false},{"cloth":5,"name":"Bohemian Boy","jockey":"H.T.Coffey","trainer":"Leon & Troy Corstens & Will Larkin","barrier":3,"weight":"57.5kg","scratched":false},{"cloth":6,"name":"Mauristic","jockey":"J.Noonan","trainer":"J.Sandhu","barrier":8,"weight":"57.5kg","scratched":false},{"cloth":7,"name":"Tiger Fox","jockey":"J.Beriman","trainer":"Shane Nichols & Hayden Black","barrier":5,"weight":"57.5kg","scratched":false},{"cloth":8,"name":"Winter Arc","jockey":"T.Madden","trainer":"P.F.Ryan Jnr","barrier":7,"weight":"57.5kg","scratched":true},{"cloth":9,"name":"Quick Finish","jockey":"J.McNeil","trainer":"Tony & Calvin McEvoy","barrier":6,"weight":"57kg","scratched":false}]},{"raceNumber":3,"name":"Peninsula Kubota Handicap","nameForm":"BM100","distance":"1100m","time":"2026-09-19T03:15:00.000Z","live":11,"scratched":0,"horses":[{"cloth":1,"name":"Spywire","jockey":"J.A.Johnstone","trainer":"C.Maher","barrier":10,"weight":"62kg","scratched":false},{"cloth":2,"name":"Winnasedge","jockey":"L.Currie","trainer":"N.R.Ryan","barrier":6,"weight":"60kg","scratched":false},{"cloth":3,"name":"Bev's Nine","jockey":"B.A.Shinn","trainer":"John O'Shea & Tom Charlton","barrier":7,"weight":"59.5kg","scratched":false},{"cloth":4,"name":"Ndola","jockey":"J.G.Radley","trainer":"Ben, Will & JD Hayes","barrier":1,"weight":"59kg","scratched":false},{"cloth":5,"name":"Klabel","jockey":"M.Zahra","trainer":"Richard & Chantelle Jolly","barrier":9,"weight":"58kg","scratched":false},{"cloth":6,"name":"Pallaton","jockey":"J.Childs","trainer":"G.M.Begg","barrier":2,"weight":"56kg","scratched":false},{"cloth":7,"name":"Don't Hope Do","jockey":"J.Mott","trainer":"S.Zahra","barrier":4,"weight":"55kg","scratched":false},{"cloth":8,"name":"Mcgaw","jockey":"J.McNeil","trainer":"Emma-Lee & David Browne","barrier":3,"weight":"55kg","scratched":false},{"cloth":9,"name":"Stokke","jockey":"D.M.Lane","trainer":"P.F.Ryan Jnr","barrier":11,"weight":"55kg","scratched":false},{"cloth":10,"name":"Philosopher","jockey":"P.M.Moloney","trainer":"E.Jusufovic","barrier":5,"weight":"53.5kg","scratched":false},{"cloth":11,"name":"Behaviour","jockey":"J.B.Stanley","trainer":"G.M.Bedggood","barrier":8,"weight":"53kg","scratched":false}]},{"raceNumber":4,"name":"Manhari Thousand Guineas Prelude","nameForm":"THOGUINEASPREL","distance":"1400m","time":"2026-09-19T03:50:00.000Z","live":13,"scratched":1,"horses":[{"cloth":1,"name":"Grinzinger Heart","jockey":"B.J.Melham","trainer":"W.B.Brisbourne","barrier":14,"weight":"58kg","scratched":true},{"cloth":2,"name":"Rebel Tuesday","jockey":"L.J.Neindorf","trainer":"Phillip & Tommy Stokes","barrier":2,"weight":"57kg","scratched":false},{"cloth":3,"name":"Leopard Shark","jockey":"J.Mott","trainer":"C.Douglas","barrier":10,"weight":"56kg","scratched":false},{"cloth":4,"name":"Aethera","jockey":"D.M.Lane","trainer":"D.T.O'Brien","barrier":5,"weight":"56kg","scratched":false},{"cloth":5,"name":"Profligate","jockey":"J.Childs","trainer":"G.M.Begg","barrier":3,"weight":"56kg","scratched":false},{"cloth":6,"name":"Portinari","jockey":"B.A.Shinn","trainer":"Ben, Will & JD Hayes","barrier":13,"weight":"56kg","scratched":false},{"cloth":7,"name":"Almost An Angel","jockey":"L.Nolen","trainer":"R.D.Griffiths","barrier":9,"weight":"56kg","scratched":false},{"cloth":8,"name":"Tolaga Bay","jockey":"M.J.Dee","trainer":"M.W.Walker","barrier":11,"weight":"56kg","scratched":false},{"cloth":9,"name":"Icelady","jockey":"E.P.Brown","trainer":"C.Maher","barrier":7,"weight":"56kg","scratched":false},{"cloth":10,"name":"Saintly Dancer","jockey":"J.M.Allen","trainer":"C.Maher","barrier":4,"weight":"56kg","scratched":false},{"cloth":11,"name":"Burning Heartz","jockey":"J.Bowditch","trainer":"G.M.Bedggood","barrier":6,"weight":"56kg","scratched":false},{"cloth":12,"name":"Mystical Realm","jockey":"T.Stockdale","trainer":"C.Maher","barrier":1,"weight":"56kg","scratched":false},{"cloth":13,"name":"Double Dodger","jockey":"C.Newitt","trainer":"J.Hunter","barrier":8,"weight":"56kg","scratched":false},{"cloth":14,"name":"Joely","jockey":"C.Williams","trainer":"Trent Busuttin & Natalie Young","barrier":12,"weight":"56kg","scratched":false}]},{"raceNumber":5,"name":"Sportsbet Caulfield Guineas Prelude","nameForm":"GNEAS PREL","distance":"1400m","time":"2026-09-19T04:25:00.000Z","live":9,"scratched":0,"horses":[{"cloth":1,"name":"Tornado Valley","jockey":"T.Stockdale","trainer":"C.Maher","barrier":3,"weight":"58kg","scratched":false},{"cloth":2,"name":"American Eagle","jockey":"M.Zahra","trainer":"Anthony & Sam Freedman","barrier":8,"weight":"58kg","scratched":false},{"cloth":3,"name":"Blind Raise","jockey":"B.A.Shinn","trainer":"Trent Busuttin & Natalie Young","barrier":9,"weight":"57kg","scratched":false},{"cloth":4,"name":"Joint Venture","jockey":"B.J.Melham","trainer":"C.J.Waller","barrier":2,"weight":"56kg","scratched":false},{"cloth":5,"name":"Wolf Gap","jockey":"E.P.Brown","trainer":"Anthony & Sam Freedman","barrier":5,"weight":"56kg","scratched":false},{"cloth":6,"name":"Confederation","jockey":"D.M.Lane","trainer":"C.J.Waller","barrier":6,"weight":"56kg","scratched":false},{"cloth":7,"name":"Seraphox","jockey":"D.Bates","trainer":"C.Maher","barrier":1,"weight":"56kg","scratched":false},{"cloth":8,"name":"Vallice","jockey":"J.M.Allen","trainer":"C.Maher","barrier":4,"weight":"56kg","scratched":false},{"cloth":9,"name":"Alchemistic","jockey":"L.Meech","trainer":"T.Dabernig","barrier":7,"weight":"56kg","scratched":false}]},{"raceNumber":6,"name":"Sportsbet How Now Stakes","nameForm":"HOW NOW","distance":"1200m","time":"2026-09-19T05:00:00.000Z","live":11,"scratched":1,"horses":[{"cloth":1,"name":"Ole Dancer","jockey":"L.Nolen","trainer":"Peter G Moody & Katherine Coleman","barrier":6,"weight":"59kg","scratched":false},{"cloth":2,"name":"Inkaruna","jockey":"D.M.Lane","trainer":"Anthony & Sam Freedman","barrier":2,"weight":"57kg","scratched":false},{"cloth":3,"name":"Point Barrow","jockey":"M.Zahra","trainer":"Anthony & Sam Freedman","barrier":11,"weight":"57kg","scratched":false},{"cloth":4,"name":"Custom","jockey":"E.P.Brown","trainer":"C.Maher","barrier":7,"weight":"57kg","scratched":false},{"cloth":5,"name":"Proved","jockey":"C.Hefel","trainer":"E.Jusufovic","barrier":12,"weight":"57kg","scratched":false},{"cloth":6,"name":"Hearcomesthestar","jockey":"B.Mertens","trainer":"J.F.Moloney","barrier":4,"weight":"56kg","scratched":false},{"cloth":7,"name":"Shadhavar","jockey":"C.Williams","trainer":"T.Dabernig","barrier":9,"weight":"56kg","scratched":true},{"cloth":8,"name":"Miss Freelove","jockey":"B.A.Shinn","trainer":"P.J.Snowden","barrier":1,"weight":"56kg","scratched":false},{"cloth":9,"name":"Stardom","jockey":"J.Childs","trainer":"Gai Waterhouse & Adrian Bott","barrier":8,"weight":"56kg","scratched":false},{"cloth":10,"name":"Bridal Waltz","jockey":"B.J.Melham","trainer":"Peter G Moody & Katherine Coleman","barrier":5,"weight":"55kg","scratched":false},{"cloth":11,"name":"Terilee","jockey":"L.K.Cartwright","trainer":"M.C.Kent","barrier":3,"weight":"55kg","scratched":false},{"cloth":12,"name":"Photograph","jockey":"J.L.Melham","trainer":"Ben, Will & JD Hayes","barrier":10,"weight":"55kg","scratched":false}]},{"raceNumber":7,"name":"Henley Homes Underwood Stakes","nameForm":"UNDERWOOD","distance":"1800m","time":"2026-09-19T05:35:00.000Z","live":8,"scratched":1,"horses":[{"cloth":1,"name":"Lindermann","jockey":"B.A.Shinn","trainer":"C.J.Waller","barrier":1,"weight":"59kg","scratched":false},{"cloth":2,"name":"Buckaroo","jockey":"M.Zahra","trainer":"C.J.Waller","barrier":8,"weight":"59kg","scratched":false},{"cloth":3,"name":"Attrition","jockey":"J.Mott","trainer":"M.Freedman","barrier":7,"weight":"59kg","scratched":false},{"cloth":4,"name":"Pinstriped","jockey":"L.J.Neindorf","trainer":"E.Jusufovic","barrier":2,"weight":"59kg","scratched":false},{"cloth":5,"name":"Cosmic Crusader","jockey":"W.A.Pike","trainer":"A.Leek","barrier":3,"weight":"59kg","scratched":false},{"cloth":6,"name":"Birdman","jockey":"B.J.Melham","trainer":"C.J.Waller","barrier":4,"weight":"59kg","scratched":false},{"cloth":7,"name":"Middle Earth","jockey":"E.P.Brown","trainer":"C.Maher","barrier":5,"weight":"59kg","scratched":false},{"cloth":8,"name":"Kingswood","jockey":"J.M.Allen","trainer":"G.M.Bedggood","barrier":9,"weight":"59kg","scratched":false},{"cloth":9,"name":"Aeliana","jockey":"D.M.Lane","trainer":"C.J.Waller","barrier":6,"weight":"57kg","scratched":true}]},{"raceNumber":8,"name":"Tobin Brothers Naturalism Stakes","nameForm":"NATURALISM","distance":"2000m","time":"2026-09-19T06:15:00.000Z","live":17,"scratched":3,"horses":[{"cloth":1,"name":"Knight's Choice","jockey":"B.A.Shinn","trainer":"John Symons & Sheila Laxon","barrier":15,"weight":"59kg","scratched":false},{"cloth":2,"name":"Asterix","jockey":"B.J.Melham","trainer":"C.J.Waller","barrier":14,"weight":"58.5kg","scratched":false},{"cloth":3,"name":"Saint George","jockey":"M.Zahra","trainer":"C.Maher","barrier":20,"weight":"58.5kg","scratched":false},{"cloth":4,"name":"Berkeley Square","jockey":"D.Bates","trainer":"D.O'Sullivan","barrier":19,"weight":"58kg","scratched":false},{"cloth":5,"name":"Wootton Verni","jockey":"C.Williams","trainer":"C.J.Waller","barrier":6,"weight":"58kg","scratched":false},{"cloth":6,"name":"Campaldino","jockey":"J.Childs","trainer":"Gai Waterhouse & Adrian Bott","barrier":17,"weight":"57.5kg","scratched":false},{"cloth":7,"name":"Onesmoothoperator","jockey":"L.Nolen","trainer":"T.L.Fitzsimmons","barrier":11,"weight":"57kg","scratched":false},{"cloth":8,"name":"Okita Soushi","jockey":"W.J.Egan","trainer":"C.Maher","barrier":9,"weight":"56kg","scratched":false},{"cloth":9,"name":"River Of Stars","jockey":"J.McNeil","trainer":"C.J.Waller","barrier":16,"weight":"56kg","scratched":false},{"cloth":10,"name":"Soulcombe","jockey":"B.Mertens","trainer":"C.J.Waller","barrier":4,"weight":"56kg","scratched":false},{"cloth":11,"name":"Deakin","jockey":"L.J.Neindorf","trainer":"Phillip & Tommy Stokes","barrier":2,"weight":"55.5kg","scratched":false},{"cloth":12,"name":"Strictly Business","jockey":"J.M.Allen","trainer":"T.Carberry","barrier":5,"weight":"55kg","scratched":false},{"cloth":13,"name":"Valiant King","jockey":"M.J.Dee","trainer":"C.J.Waller","barrier":3,"weight":"55kg","scratched":true},{"cloth":14,"name":"Zahrann","jockey":"E.P.Brown","trainer":"C.Maher","barrier":8,"weight":"55kg","scratched":false},{"cloth":15,"name":"Piggyback","jockey":"D.M.Lane","trainer":"C.Maher","barrier":1,"weight":"54kg","scratched":true},{"cloth":16,"name":"Machine Gun Gracie","jockey":"L.Currie","trainer":"Ben, Will & JD Hayes","barrier":13,"weight":"54kg","scratched":false},{"cloth":17,"name":"Travolta","jockey":null,"trainer":"C.J.Waller","barrier":12,"weight":"54.5kg","scratched":true},{"cloth":18,"name":"Zakouma","jockey":"W.A.Pike","trainer":"G.M.Begg","barrier":7,"weight":"54kg","scratched":false},{"cloth":19,"name":"Kings Valley","jockey":"J.L.Melham","trainer":"C.Maher","barrier":18,"weight":"54kg","scratched":false},{"cloth":20,"name":"Darkbonee","jockey":"J.L.Melham","trainer":"S.W.Wilde","barrier":10,"weight":"54kg","scratched":false}]},{"raceNumber":9,"name":"Sportsbet Sir Rupert Clarke Stakes","nameForm":"RUP CLARKE","distance":"1400m","time":"2026-09-19T06:50:00.000Z","live":18,"scratched":0,"horses":[{"cloth":1,"name":"Tom Kitten","jockey":"M.Zahra","trainer":"Anthony & Sam Freedman","barrier":14,"weight":"59kg","scratched":false},{"cloth":2,"name":"Evaporate","jockey":"B.A.Shinn","trainer":"Ben, Will & JD Hayes","barrier":17,"weight":"56.5kg","scratched":false},{"cloth":3,"name":"Sepals","jockey":"E.P.Brown","trainer":"C.I.Brown","barrier":5,"weight":"56.5kg","scratched":false},{"cloth":4,"name":"War Machine","jockey":"D.M.Lane","trainer":"Ben, Will & JD Hayes","barrier":18,"weight":"56.5kg","scratched":false},{"cloth":5,"name":"Angel Capital","jockey":"B.J.Melham","trainer":"C.J.Waller","barrier":7,"weight":"56kg","scratched":false},{"cloth":6,"name":"Lady Shenandoah","jockey":"C.Williams","trainer":"C.J.Waller","barrier":1,"weight":"56kg","scratched":false},{"cloth":7,"name":"Warnie","jockey":"D.Bates","trainer":"C.Maher","barrier":3,"weight":"55kg","scratched":false},{"cloth":8,"name":"Feroce","jockey":"W.J.Egan","trainer":"D.E.A.Sutton","barrier":8,"weight":"54.5kg","scratched":false},{"cloth":9,"name":"Von Hauke","jockey":"H.T.Coffey","trainer":"C.I.Brown","barrier":6,"weight":"54.5kg","scratched":false},{"cloth":10,"name":"Planet Red","jockey":"M.J.Dee","trainer":"Mick Price & Michael Kent (Jnr)","barrier":10,"weight":"53.5kg","scratched":false},{"cloth":11,"name":"Sabaj","jockey":"J.L.Melham","trainer":"Mick Price & Michael Kent (Jnr)","barrier":13,"weight":"53kg","scratched":false},{"cloth":12,"name":"Yellow Jersey","jockey":"D.W.Stackhouse","trainer":"Tony & Calvin McEvoy","barrier":16,"weight":"53kg","scratched":false},{"cloth":13,"name":"Regal Award","jockey":"L.J.Neindorf","trainer":"Phillip & Tommy Stokes","barrier":4,"weight":"52.5kg","scratched":false},{"cloth":14,"name":"Sun God","jockey":"J.McNeil","trainer":"C.J.Waller","barrier":2,"weight":"52.5kg","scratched":false},{"cloth":15,"name":"Persian Spirit","jockey":"D.G.Thornton","trainer":"S.W.Wilde","barrier":9,"weight":"52kg","scratched":false},{"cloth":16,"name":"Recon","jockey":"P.M.Moloney","trainer":"Pat Carey & Harris Walker","barrier":12,"weight":"52kg","scratched":false},{"cloth":17,"name":"Harry's Yacht","jockey":"J.B.Stanley","trainer":"Leon & Troy Corstens & Will Larkin","barrier":15,"weight":"52kg","scratched":false},{"cloth":18,"name":"Tennessee Bound","jockey":null,"trainer":"C.Maher","barrier":11,"weight":"52kg","scratched":false}]},{"raceNumber":10,"name":"ive > Handicap","nameForm":"BM84","distance":"1400m","time":"2026-09-19T07:25:00.000Z","live":14,"scratched":5,"horses":[{"cloth":1,"name":"Jenni's Meadow","jockey":"T.Stockdale","trainer":"C.Maher","barrier":19,"weight":"60.5kg","scratched":false},{"cloth":2,"name":"Stylish","jockey":"J.G.Radley","trainer":"Ben, Will & JD Hayes","barrier":12,"weight":"59.5kg","scratched":false},{"cloth":3,"name":"Windstorm","jockey":"D.W.Stackhouse","trainer":"L.J.McGill","barrier":1,"weight":"58.5kg","scratched":true},{"cloth":4,"name":"Betwitchery","jockey":"L.K.Cartwright","trainer":"Leon & Troy Corstens & Will Larkin","barrier":6,"weight":"58kg","scratched":false},{"cloth":5,"name":"He'll Rip","jockey":"H.Durnan","trainer":"Leon & Troy Corstens & Will Larkin","barrier":18,"weight":"58kg","scratched":false},{"cloth":6,"name":"Presser","jockey":"J.Mott","trainer":"G.M.Bedggood","barrier":7,"weight":"58kg","scratched":false},{"cloth":7,"name":"Porter","jockey":"L.J.Bates","trainer":"D.T.O'Brien","barrier":14,"weight":"57.5kg","scratched":false},{"cloth":8,"name":"Aftermath","jockey":"D.Bates","trainer":"P.A.Preusker","barrier":8,"weight":"57kg","scratched":true},{"cloth":9,"name":"Fiorenot","jockey":"J.Childs","trainer":"T.Dabernig","barrier":9,"weight":"57kg","scratched":false},{"cloth":10,"name":"Dad And Dave","jockey":"J.A.Johnstone","trainer":"C.Maher","barrier":16,"weight":"55.5kg","scratched":false},{"cloth":11,"name":"Stealth Of Night","jockey":"B.A.Shinn","trainer":"Ben, Will & JD Hayes","barrier":15,"weight":"55.5kg","scratched":true},{"cloth":12,"name":"Supernima","jockey":"L.Nolen","trainer":"Peter G Moody & Katherine Coleman","barrier":3,"weight":"55.5kg","scratched":false},{"cloth":13,"name":"Fundamental Nature","jockey":"J.M.Allen","trainer":"C.Maher","barrier":2,"weight":"55kg","scratched":true},{"cloth":14,"name":"Watersports","jockey":"C.Williams","trainer":"A.Alexander","barrier":10,"weight":"55kg","scratched":false},{"cloth":15,"name":"Grand Omaha","jockey":"P.M.Moloney","trainer":"M.Laurie","barrier":4,"weight":"54.5kg","scratched":false},{"cloth":16,"name":"Recuperato","jockey":"J.McNeil","trainer":"P.Gelagotis","barrier":13,"weight":"54.5kg","scratched":false},{"cloth":17,"name":"Cruiserweight","jockey":"E.P.Brown","trainer":"Ben, Will & JD Hayes","barrier":5,"weight":"55kg","scratched":false},{"cloth":18,"name":"Inevitable Award","jockey":"D.Bates","trainer":"P.A.Preusker","barrier":17,"weight":"54.5kg","scratched":true},{"cloth":19,"name":"Savoyard","jockey":"M.J.Dee","trainer":"C.I.Brown","barrier":11,"weight":"53kg","scratched":false}]}]};
+
+const CRITERIA = [
+  { key: "build", label: "Balance & build", max: 20 },
+  { key: "muscle", label: "Muscle & condition", max: 20 },
+  { key: "grooming", label: "Grooming", max: 15 },
+  { key: "legs", label: "Legs & feet", max: 10 },
+  { key: "movement", label: "Movement", max: 10 },
+  { key: "demeanour", label: "Demeanour", max: 10 },
+  { key: "tack", label: "Tack", max: 5 },
+  { key: "strapper", label: "Strapper", max: 10 },
+];
+const LS = "yardcard.party.v2";
+const STORE_KEY = "yardcard.store.v3";
+const $ = (s, el=document) => el.querySelector(s);
+const view = $("#view");
+let CARD = null;
+let raceCache = null;
+let horseIndex = 0;
+let activeRaceNo = null;
+let activeParty = null;
+
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || "null") || { scores: {} }; }
+  catch { return { scores: {} }; }
+}
+function saveStore(s) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+  catch (e) { console.warn("store", e); }
+}
+function attachmentsFrom(card) {
+  const out = {};
+  (card.tables || []).forEach(t => {
+    out[String(t.raceNumber)] = {
+      raceNumber: t.raceNumber, partyId: t.id, team: t.team,
+      members: t.members, official: true, leaveSuite: t.leaveSuite
+    };
+  });
+  return out;
+}
+function boardState() {
+  const scores = loadStore().scores || {};
+  const atts = attachmentsFrom(CARD);
+  const board = (CARD.races || []).map(r => {
+    const att = atts[String(r.raceNumber)];
+    const rs = scores[String(r.raceNumber)] || {};
+    const ranked = Object.values(rs).filter(s => s && s.total != null)
+      .sort((a,b) => (b.total||0) - (a.total||0) || (b.tie||0) - (a.tie||0));
+    return {
+      raceNumber: r.raceNumber, name: r.name, nameForm: r.nameForm,
+      distance: r.distance, time: r.time, live: r.live, scratched: r.scratched,
+      leaveSuite: att?.leaveSuite, attachment: att,
+      winner: ranked[0] || null, ranked: ranked.slice(0,3), scoredCount: ranked.length
+    };
+  }).sort((a,b) => a.raceNumber - b.raceNumber);
+  return { meetingName: CARD.meetingName, venue: CARD.venue, date: CARD.date, attachments: atts, board };
+}
+
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.remove("hidden");
+  setTimeout(() => t.classList.add("hidden"), 1600);
+}
+function loadParty() { try { return JSON.parse(localStorage.getItem(LS) || "null"); } catch { return null; } }
+function saveParty(p) { try { localStorage.setItem(LS, JSON.stringify(p)); } catch (e) { console.warn("party", e); } }
+function fmtTime(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit", timeZone: "Australia/Melbourne" });
+}
+function groupTag(r) {
+  const n = (r.name || "").toUpperCase();
+  if (/UNDERWOOD|SIR RUPERT/.test(n)) return "GROUP 1";
+  if (/PRELUDE|HOW NOW|NATURALISM/.test(n)) return "FEATURE";
+  return r.nameForm || "";
+}
+async function boot() {
+  if (CARD) return CARD;
+  CARD = window.CARD_DATA;
+  return CARD;
+}
+async function api(path, opts) {
+  await boot();
+  const method = (opts && opts.method) || "GET";
+  let body = {};
+  if (opts && opts.body) body = JSON.parse(opts.body);
+  if (path === "/api/state") return boardState();
+  if (path.startsWith("/api/race/")) {
+    const n = Number(path.split("/").pop());
+    const race = CARD.races.find(r => r.raceNumber === n);
+    if (!race) throw new Error("Race not found");
+    const scores = (loadStore().scores || {})[String(n)] || {};
+    return { ...race, attachment: attachmentsFrom(CARD)[String(n)], scores };
+  }
+  if (path === "/api/score" && method === "POST") {
+    const marks = body.marks || {};
+    const total = ["build","muscle","grooming","legs","movement","demeanour","tack","strapper"]
+      .reduce((s,k) => s + Number(marks[k]||0), 0);
+    const store = loadStore();
+    store.scores = store.scores || {};
+    const n = String(body.raceNumber);
+    store.scores[n] = store.scores[n] || {};
+    store.scores[n][String(body.cloth)] = {
+      cloth: body.cloth, name: body.name, marks, note: body.note || "",
+      total, tie: Number(marks.muscle||0)+Number(marks.grooming||0), partyId: body.partyId
+    };
+    saveStore(store);
+    return store.scores[n][String(body.cloth)];
+  }
+  if (path === "/api/host/login") {
+    if (String(body.pin||"") !== "mpc19") throw new Error("Wrong PIN");
+    return { ok: true };
+  }
+  if (path === "/api/host/reset") {
+    saveStore({ scores: {} });
+    return { ok: true };
+  }
+  throw new Error("Request failed");
+}
+function navActive(name) {
+  document.querySelectorAll("[data-nav]").forEach(a => a.classList.toggle("active", a.dataset.nav === name));
+}
+function route() {
+  $("#toast")?.classList.add("hidden");
+  const parts = (location.hash.replace("#", "") || "/judge").split("/").filter(Boolean);
+  if (parts[0] === "board") return renderBoard();
+  if (parts[0] === "host") return renderHost();
+  if (parts[0] === "race" && parts[1]) return renderRace(Number(parts[1]));
+  return renderJudgeHome();
+}
+function stepValues(max) {
+  if (max <= 5) return [1,2,3,4,5];
+  if (max === 10) return [5,6,7,8,9,10];
+  if (max === 15) return [9,10,11,12,13,14,15];
+  return [12,14,16,18,20];
+}
+function totalOf(marks) { return CRITERIA.reduce((s,c) => s + (Number(marks?.[c.key]) || 0), 0); }
+
+async function renderJudgeHome() {
+  navActive("judge");
+  $("#dock")?.remove();
+  const state = await api("/api/state");
+  view.innerHTML = `
+    <section class="hero">
+      <div class="kicker">Caulfield · 19 September 2026 · Skyline Suites</div>
+      <h1>Best presented in the yard</h1>
+      <p>All ten tables. Tap This is us on your race. Scores stay on this phone.</p>
+    </section>
+    <div class="card">
+      <h2>Allocated tables</h2>
+      <div id="races"></div>
+    </div>`;
+  $("#races").innerHTML = state.board.map(r => {
+    const att = r.attachment;
+    const g1 = groupTag(r) === "GROUP 1" ? " g1" : "";
+    return `<div class="race">
+      <div class="rn${g1}">${r.raceNumber}</div>
+      <div class="meta">
+        <div class="kicker">${groupTag(r)} · out ${r.leaveSuite || ""}</div>
+        <b>${r.name}</b>
+        <div class="who">${(att?.members || []).join(" · ")}</div>
+      </div>
+      <button class="btn soil" data-claim="${att?.partyId || ""}">This is us</button>
+    </div>`;
+  }).join("");
+  document.querySelectorAll("[data-claim]").forEach(btn => {
+    btn.onclick = () => {
+      const att = Object.values(state.attachments).find(a => a.partyId === btn.dataset.claim);
+      if (!att) return;
+      saveParty({ id: att.partyId, team: att.team, members: att.members });
+      location.hash = "#/race/" + att.raceNumber;
+    };
+  });
+}
+
+async function renderRace(n) {
+  navActive("judge");
+  activeParty = loadParty();
+  raceCache = await api("/api/race/" + n);
+  const live = raceCache.horses.filter(h => !h.scratched);
+  live.forEach(h => {
+    const existing = raceCache.scores[String(h.cloth)];
+    h.marks = existing ? { ...existing.marks } : {};
+    h.note = existing?.note || "";
+  });
+  raceCache.live = live;
+  if (activeRaceNo !== n) { horseIndex = 0; activeRaceNo = n; }
+  horseIndex = Math.min(horseIndex, Math.max(live.length - 1, 0));
+  paintHorse();
+}
+
+function goHorse(delta) {
+  horseIndex = Math.max(0, Math.min(raceCache.live.length - 1, horseIndex + delta));
+  paintHorse();
+}
+
+function paintHorse() {
+  const race = raceCache;
+  const live = race.live;
+  const h = live[horseIndex];
+  if (!h) return;
+  const scr = race.horses.filter(x => x.scratched);
+  view.innerHTML = `
+    <section class="hero">
+      <div class="kicker">${groupTag(race)} · ${fmtTime(race.time)} · ${race.distance} · ${live.length} to judge</div>
+      <h1>R${race.raceNumber} ${race.name}</h1>
+      <p>Present as they walk to the start. ${(race.attachment?.members || []).join(" · ")}</p>
+    </section>
+    <div class="yard">
+      <div class="progress">
+        ${live.map((x,i) => `<button class="${i===horseIndex?"on":""} ${totalOf(x.marks)? "done":""}" data-i="${i}">${x.cloth}</button>`).join("")}
+      </div>
+      <div class="horse-pane" id="pane"></div>
+      ${scr.length ? `<div class="muted" style="padding:0 6px">Scratched · ${scr.map(x => x.cloth + " " + x.name).join(" · ")}</div>` : ""}
+      <button class="btn ghost" style="width:100%" id="back">Back to tables</button>
+    </div>`;
+  document.querySelectorAll(".progress [data-i]").forEach(b => b.onclick = () => { horseIndex = Number(b.dataset.i); paintHorse(); });
+  $("#back").onclick = () => {
+    try { localStorage.removeItem(LS); } catch {}
+    location.hash = "#/judge";
+  };
+  mountPane(h);
+  mountDock();
+}
+
+function mountPane(h) {
+  const pane = $("#pane");
+  pane.innerHTML = `
+    <div class="hd">
+      <div style="display:flex;gap:12px">
+        <div class="cloth">${h.cloth}</div>
+        <div>
+          <b style="font-size:22px">${h.name}</b>
+          <div class="muted">J ${h.jockey || "—"}</div>
+          <div class="muted">T ${h.trainer || "—"} · box ${h.barrier ?? "—"} · ${h.weight || ""}</div>
+        </div>
+      </div>
+      <div class="total-pill"><b id="htot">${totalOf(h.marks)}</b><span>/ 100</span></div>
+    </div>
+    ${CRITERIA.map(c => `
+      <div class="crit">
+        <div class="lab"><span>${c.label}</span><span>/${c.max}</span></div>
+        <div class="scores" data-key="${c.key}">
+          ${stepValues(c.max).map(v => `<button data-v="${v}" class="${Number(h.marks[c.key])===v?"on":""}">${v}</button>`).join("")}
+        </div>
+      </div>`).join("")}`;
+  pane.querySelectorAll(".scores button").forEach(b => {
+    b.onclick = () => {
+      const key = b.parentElement.dataset.key;
+      h.marks[key] = Number(b.dataset.v);
+      b.parentElement.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+      $("#htot").textContent = totalOf(h.marks);
+      persist(h);
+      mountDock();
+    };
+  });
+}
+
+async function persist(h) {
+  try {
+    await api("/api/score", { method: "POST", body: JSON.stringify({
+      raceNumber: raceCache.raceNumber, partyId: activeParty?.id, cloth: h.cloth, name: h.name, marks: h.marks, note: h.note || ""
+    })});
+  } catch (e) { toast(e.message || "Save failed"); }
+}
+
+function mountDock() {
+  let dock = $("#dock");
+  if (!dock) { dock = document.createElement("div"); dock.className = "dock"; dock.id = "dock"; document.body.appendChild(dock); }
+  const live = raceCache.live;
+  const ranked = live.filter(h => totalOf(h.marks) > 0).sort((a,b) => totalOf(b.marks) - totalOf(a.marks));
+  const lead = ranked[0];
+  const last = horseIndex >= live.length - 1;
+  dock.innerHTML = `
+    <button class="btn ghost" id="prev" style="color:#f4ead3;border-color:#6d5c4a">Prev</button>
+    <div class="lead">${lead ? lead.cloth + " " + lead.name + " · " + totalOf(lead.marks) : ranked.length + " / " + live.length + " scored"}</div>
+    <button class="btn gold" id="save" style="margin:0;width:auto">${last ? "Save" : "Next"}</button>`;
+  $("#prev").onclick = () => goHorse(-1);
+  $("#save").onclick = () => {
+    const h = live[horseIndex];
+    persist(h);
+    toast(h.name + " · " + totalOf(h.marks));
+    if (horseIndex < live.length - 1) goHorse(1);
+  };
+  liftDock();
+}
+
+async function renderBoard() {
+  navActive("board");
+  $("#dock")?.remove();
+  const state = await api("/api/state");
+  view.innerHTML = `
+    <section class="hero">
+      <div class="kicker">Skyline Suites · live</div>
+      <h1>Best presented</h1>
+      <p>${state.meetingName}. Winners lock as each table finishes in the yard.</p>
+    </section>
+    <div class="board-grid">
+      ${state.board.map(r => {
+        const w = r.winner;
+        return `<div class="brow ${w ? "hot" : ""}">
+          <div class="r">${r.raceNumber}</div>
+          <div>
+            <b>${r.name}</b>
+            <div class="muted">${w ? w.cloth + " " + w.name : "Still in the yard"} · ${fmtTime(r.time)}</div>
+          </div>
+          <div style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;text-align:right">${w ? w.total : "—"}</div>
+        </div>`;
+      }).join("")}
+    </div>`;
+}
+
+async function renderHost() {
+  navActive("host");
+  $("#dock")?.remove();
+  if (sessionStorage.getItem("yard.host") !== "1") {
+    view.innerHTML = `
+      <section class="hero"><div class="kicker">Coordinator</div><h1>Host desk</h1><p>See which tables have left and which races have a winner.</p></section>
+      <div class="card"><input id="pin" type="password" placeholder="Host PIN" /><button class="btn gold" id="login">Unlock</button></div>`;
+    $("#login").onclick = async () => {
+      try { await api("/api/host/login", { method:"POST", body: JSON.stringify({ pin: $("#pin").value }) }); sessionStorage.setItem("yard.host","1"); renderHost(); }
+      catch(e) { toast(e.message); }
+    };
+    return;
+  }
+  const state = await api("/api/state");
+  view.innerHTML = `
+    <section class="hero"><div class="kicker">Host</div><h1>Tables and winners</h1><p>Leave-suite times are T-20. Present before they jump.</p></section>
+    <div class="card">
+      ${state.board.map(r => `
+        <div class="race">
+          <div class="rn${groupTag(r)==="GROUP 1"?" g1":""}">${r.raceNumber}</div>
+          <div class="meta">
+            <div class="kicker">leave ${r.leaveSuite || ""} · ${r.live} live / ${r.scratched} scr</div>
+            <b>${r.name}</b>
+            <div class="who">${(r.attachment?.members || []).join(" · ") || "No table"}</div>
+          </div>
+          <div>${r.winner ? `<span class="chip">${r.winner.cloth} ${r.winner.name} ${r.winner.total}</span>` : `<span class="muted">${r.scoredCount} scored</span>`}</div>
+        </div>`).join("")}
+    </div>`;
+}
+
+function liftDock() {
+  const dock = document.getElementById("dock");
+  if (!dock) return;
+  const vv = window.visualViewport;
+  let inset = vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0;
+  const crios = document.documentElement.classList.contains("crios");
+  if (crios && inset < 52) inset = 56;
+  dock.style.bottom = inset + "px";
+  const toast = document.getElementById("toast");
+  if (toast) toast.style.bottom = (inset + 84) + "px";
+}
+function goTab(name) {
+  const next = "#/" + name;
+  if (location.hash === next) route();
+  else location.hash = next;
+}
+function bindNav() {
+  document.querySelectorAll("[data-nav]").forEach(a => {
+    const go = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      goTab(a.dataset.nav);
+    };
+    a.onclick = go;
+    a.ontouchend = (e) => { e.preventDefault(); goTab(a.dataset.nav); };
+  });
+}
+function start() {
+  try {
+    if (/CriOS/i.test(navigator.userAgent)) document.documentElement.classList.add("crios");
+    if (!window.CARD_DATA || !window.CARD_DATA.races) {
+      view.innerHTML = '<section class="hero"><h1>Card did not load</h1><p>Refresh the page on this phone. If it stays blank, open the file from Files or Safari.</p></section>';
+      return;
+    }
+    bindNav();
+    window.addEventListener("hashchange", route);
+    window.addEventListener("resize", liftDock);
+    window.addEventListener("orientationchange", liftDock);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", liftDock);
+      window.visualViewport.addEventListener("scroll", liftDock);
+    }
+    route();
+    setInterval(() => {
+      if (/board|host/.test(location.hash)) route();
+    }, 8000);
+  } catch (e) {
+    view.innerHTML = '<section class="hero"><h1>Something broke</h1><p>' + String(e.message || e) + '</p></section>';
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+else start();
+</script>
+</body>
+</html>
